@@ -10,6 +10,9 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
+
+import conectandoLocalidades.agm.ArbolGeneradoMinimo;
 
 import javax.swing.JButton;
 
@@ -97,9 +100,9 @@ public class Mapa
 			{
 			if (e.getButton() == MouseEvent.BUTTON1)
 			{
-				Coordinate markeradd = (Coordinate)
-				miMapa.getPosition(e.getPoint());
+				Coordinate markeradd = (Coordinate) miMapa.getPosition(e.getPoint());
 				coordenadas.add(markeradd);
+				System.out.println(markeradd);
 				String nombre = JOptionPane.showInputDialog("Nombre: ");
 				miMapa.addMapMarker(new MapMarkerDot(nombre, markeradd));
 			}}
@@ -114,6 +117,7 @@ public class Mapa
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				ArbolGeneradoMinimo.prim(obtenerCoordenadas());
 				poligono = new MapPolygonImpl(coordenadas);
 				miMapa.addMapPolygon(poligono);
 			}
@@ -133,5 +137,48 @@ public class Mapa
 		btnEliminar.setBounds(10, 64, 195, 23);
 		panelControles.add(btnEliminar);
 		panelControles.add(btnDibujarPolgono);
-	}	
+	}
+	
+	private int[][] obtenerCoordenadas() {
+		int n = coordenadas.size();
+		int[][] grafo = new int[n][n];
+
+		for (int i = 0; i < n; i++) {
+		    for (int j = 0; j < n; j++) {
+		        if (i == j) {
+		            grafo[i][j] = 0; //La distancia de un nodo a si mismo es 0
+		        } else {
+		        	//Lat y Long de cada coordenada
+		        	double lat1 = coordenadas.get(i).getLat();
+		        	double lng1 = coordenadas.get(i).getLon();
+		        	double lat2 = coordenadas.get(j).getLat();
+		        	double lng2 = coordenadas.get(j).getLon();
+		        	double distancia = distanciaCoord(lat1, lng1, lat2, lng2); //Harvesine
+		        	grafo[i][j] = (int) distancia; //Parseo a entero y lo agrego al grafo
+		        	System.out.println(distancia); //BORRAR
+		        }
+		    }
+		}
+		return grafo;
+	}
+	
+	
+	//Fórmula de Haversine se utiliza para calcular la distancia entre dos puntos 
+	//en la superficie de la Tierra, y se basa en la latitud y longitud de los puntos.
+	public static double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
+	    double radioTierra = 6371; //Km
+
+	    double dLat = Math.toRadians(lat2 - lat1);
+	    double dLng = Math.toRadians(lng2 - lng1);
+
+	    double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+	            Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+	                    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+	    double distancia = radioTierra * c; //Distancia en km
+
+	    return distancia;
+	}
 }

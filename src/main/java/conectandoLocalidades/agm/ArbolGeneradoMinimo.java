@@ -46,6 +46,7 @@ public class ArbolGeneradoMinimo {
         return minIndice;
     }
 
+    //Muestra la distancia en km entre cada coordenada. Estaria bueno mostrarlo en la ventana.
     public static void imprimirAGM(int[] padre, int[][] grafo) {
         System.out.println("Arista \tPeso");
         for (int i = 1; i < grafo.length; i++) {
@@ -53,14 +54,14 @@ public class ArbolGeneradoMinimo {
         }
     }
     
-    public static void main(String[] args) {
-        int[][] grafo = { { 0, 2, 0, 6, 0 },
-                          { 2, 0, 3, 8, 5 },
-                          { 0, 3, 0, 0, 7 },
-                          { 6, 8, 0, 0, 9 },
-                          { 0, 5, 7, 9, 0 } };
-
-        prim(grafo);
-    }
+//    public static void imprimirAGM(int[] padre, ArrayList<MapMarkerDot> marcadores) {
+//	    System.out.println("Arista \tDistancia");
+//	    for (int i = 1; i < padre.length; i++) {
+//	        GeoPosition pos1 = marcadores.get(padre[i]).getCoordinate();
+//	        GeoPosition pos2 = marcadores.get(i).getCoordinate();
+//	        double distancia = pos1.distance(pos2);
+//	        System.out.println(padre[i] + " - " + i + "\t" + distancia);
+//	    }
+//	} BORRAR - NO NOS SIRVE
     
 }
