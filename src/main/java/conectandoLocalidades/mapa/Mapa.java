@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Mapa {
 
@@ -32,6 +34,10 @@ public class Mapa {
 	private JButton btnEliminar;
 	private MapPolygonImpl poligono;
 	private JButton btnDibujarPolgono;
+	
+	private List<String> nombres;
+	private List<Double> distancias;
+	private boolean yaDibujado;
 
 	/**
 	 * Launch the application.
@@ -86,16 +92,23 @@ public class Mapa {
 
 	private void detectarCoordenadas() {
 		coordenadas = new ArrayList<Coordinate>();
+		nombres = new ArrayList<String>();
+		int maximoNombres = 4;
 
 		miMapa.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getButton() == MouseEvent.BUTTON1) {
+				if ((e.getButton() == MouseEvent.BUTTON1) && (nombres.size() < maximoNombres)) {
 					Coordinate markeradd = (Coordinate) miMapa.getPosition(e.getPoint());
 					coordenadas.add(markeradd);
 					System.out.println(markeradd);
 					String nombre = JOptionPane.showInputDialog("Nombre: ");
 					miMapa.addMapMarker(new MapMarkerDot(nombre, markeradd));
+					
+					System.out.println("nuevo nombre en la granja: "+ nombre);
+					nombres.add(nombre);
+					yaDibujado = true;
+					System.out.println("ya dibujado:: " + yaDibujado);
 				}
 			}
 		});
@@ -107,8 +120,13 @@ public class Mapa {
 		btnDibujarPolgono.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ArbolGeneradoMinimo.prim(obtenerCoordenadas());
-				poligono = new MapPolygonImpl(coordenadas);
+				if(coordenadas.size() == 2) {
+					poligono = new MapPolygonImpl( new ArrayList<Coordinate>(Arrays.asList(coordenadas.get(0), coordenadas.get(1), coordenadas.get(1)) ));
+				} else {
+					poligono = new MapPolygonImpl(coordenadas);
+				}
 				miMapa.addMapPolygon(poligono);
+				yaDibujado = false;
 			}
 		});
 	}
@@ -118,6 +136,7 @@ public class Mapa {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				miMapa.removeMapPolygon(poligono);
+				yaDibujado = true;
 			}
 		});
 		btnEliminar.setBounds(10, 64, 195, 23);
@@ -128,9 +147,11 @@ public class Mapa {
 	private int[][] obtenerCoordenadas() {
 		int n = coordenadas.size();
 		int[][] grafo = new int[n][n];
+		distancias = new ArrayList<Double>();
 
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
+				System.out.println("i: "+i+" --  j: "+j);
 				if (i == j) {
 					grafo[i][j] = 0; // La distancia de un nodo a si mismo es 0
 				} else {
@@ -141,7 +162,11 @@ public class Mapa {
 					double lng2 = coordenadas.get(j).getLon();
 					double distancia = distanciaCoord(lat1, lng1, lat2, lng2); // Harvesine
 					grafo[i][j] = (int) distancia; // Parseo a entero y lo agrego al grafo
+					// -------------------------------------------------------------------------- esto se hace x2 ojo
+					System.out.println(":::::::::: "+nombres.get(i)+" :: "+nombres.get(j)+" ::::::::::");
+					System.out.println("distancia::::: ");
 					System.out.println(distancia); // BORRAR
+					distancias.add(distancia);
 				}
 			}
 		}
@@ -153,6 +178,10 @@ public class Mapa {
 	// puntos.
 	public static double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
 		double radioTierra = 6371; // Km
+		
+		System.out.println("-----------");
+		System.out.println(lat1+" - "+lng1+" - "+lat2+" - "+lng2+" - ");
+		System.out.println("-----------");
 
 		double dLat = Math.toRadians(lat2 - lat1);
 		double dLng = Math.toRadians(lng2 - lng1);
