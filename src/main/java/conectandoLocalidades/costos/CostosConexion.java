@@ -5,8 +5,8 @@ public class CostosConexion {
 	private double costoPorKm;
 	private double porcentajeDeAumento;
 	private double costoFijo;
-	
-	public CostosConexion() { 
+
+	public CostosConexion() {
 		setCostoPorKm();
 		setPorcentajeDeAumento();
 		setCostoFijo();
@@ -15,7 +15,7 @@ public class CostosConexion {
 	private void setCostoPorKm() {
 		this.costoPorKm = 100;
 	}
-	
+
 	private void setCostoFijo() {
 		this.costoFijo = 350;
 	}
@@ -35,7 +35,5 @@ public class CostosConexion {
 	public double getCostoFijo() {
 		return costoFijo;
 	}
-	
-	
 
 }

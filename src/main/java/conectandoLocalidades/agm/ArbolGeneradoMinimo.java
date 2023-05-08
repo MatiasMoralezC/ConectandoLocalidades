@@ -32,7 +32,7 @@ public class ArbolGeneradoMinimo {
         imprimirAGM(padre, grafo);
     }
 
-    public static int minClave(int[] clave, boolean[] visitado) {
+	public static int minClave(int[] clave, boolean[] visitado) {
         int min = Integer.MAX_VALUE;
         int minIndice = -1;
 
