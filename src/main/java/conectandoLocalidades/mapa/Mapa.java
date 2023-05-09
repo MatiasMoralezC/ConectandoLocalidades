@@ -39,21 +39,21 @@ public class Mapa {
 	private JButton btnEliminar;
 	private MapPolygonImpl poligono;
 	private JButton btnDibujarPolgono;
-	
+
 	private List<String> nombres;
 	private List<Double> distancias;
-	
+
 	private JLabel lblNewLabel;
 	private JLabel lblElem;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	
+
 	private JLabel lblDistancia;
 	private JLabel lblDistancia_2;
 	private JLabel lblDistancia_3;
 	private JLabel lblDistancia_4;
-	
+
 	private ArbolGeneradoMinimo agm;
 	private int maximoNombres = 5;
 	private JLabel lblDistancia_1;
@@ -101,61 +101,60 @@ public class Mapa {
 
 		miMapa = new JMapViewer();
 		miMapa.setDisplayPosition(new Coordinate(-34.521, -58.7008), 15);
-		
+
 		lblNewLabel = new JLabel("-1");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 108, 100, 23);
 		panelControles.add(lblNewLabel);
-		
+
 		lblElem = new JLabel("-2");
 		lblElem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblElem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblElem.setBounds(10, 142, 100, 23);
 		panelControles.add(lblElem);
-		
+
 		lblNewLabel_2 = new JLabel("-3");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_2.setBounds(10, 176, 100, 23);
 		panelControles.add(lblNewLabel_2);
-		
+
 		lblNewLabel_3 = new JLabel("-4");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_3.setBounds(10, 210, 100, 23);
 		panelControles.add(lblNewLabel_3);
-		
+
 		lblNewLabel_4 = new JLabel("-5");
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_4.setBounds(10, 244, 100, 23);
 		panelControles.add(lblNewLabel_4);
-		
+
 		lblDistancia = new JLabel("dist1");
 		lblDistancia.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDistancia.setBounds(0, 299, 242, 23);
 		panelControles.add(lblDistancia);
-		
+
 		lblDistancia_2 = new JLabel("dist2");
 		lblDistancia_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDistancia_2.setBounds(0, 333, 242, 23);
 		panelControles.add(lblDistancia_2);
-		
+
 		lblDistancia_3 = new JLabel("dist3");
 		lblDistancia_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDistancia_3.setBounds(0, 367, 242, 23);
 		panelControles.add(lblDistancia_3);
-		
+
 		lblDistancia_4 = new JLabel("dist4");
 		lblDistancia_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDistancia_4.setBounds(0, 401, 242, 23);
 		panelControles.add(lblDistancia_4);
-		
 
 		lblDistancia_1 = new JLabel(":: distancias y costos ::");
 		lblDistancia_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -164,10 +163,10 @@ public class Mapa {
 		panelControles.add(lblDistancia_1);
 
 		panelMapa.add(miMapa);
-		
+
 		limpiarDistancias();
 		limpiarNombre();
-		
+
 		detectarCoordenadas();
 		dibujarPoligono();
 		eliminarPoligono();
@@ -194,33 +193,33 @@ public class Mapa {
 			}
 		});
 	}
-	
+
 	public void mostrarNombre() {
 		switch (nombres.size()) {
-		  case 1:
-				lblNewLabel.setText(nombres.get(nombres.size() -1 ));
-		    break;
-		  case 2:
-				lblElem.setText(nombres.get(nombres.size() -1 ));
-		    break;
-		  case 3:
-				lblNewLabel_2.setText(nombres.get(nombres.size() -1 ));
-		    break;
-		  case 4:
-				lblNewLabel_3.setText(nombres.get(nombres.size() -1 ));
-		    break;
-		  case 5:
-				lblNewLabel_4.setText(nombres.get(nombres.size() -1 ));
-		    break;
+		case 1:
+			lblNewLabel.setText(nombres.get(nombres.size() - 1));
+			break;
+		case 2:
+			lblElem.setText(nombres.get(nombres.size() - 1));
+			break;
+		case 3:
+			lblNewLabel_2.setText(nombres.get(nombres.size() - 1));
+			break;
+		case 4:
+			lblNewLabel_3.setText(nombres.get(nombres.size() - 1));
+			break;
+		case 5:
+			lblNewLabel_4.setText(nombres.get(nombres.size() - 1));
+			break;
 		}
 	}
-	
+
 	public void limpiarNombre() {
-		lblNewLabel.setText( null );
-		lblElem.setText( null );
-		lblNewLabel_2.setText( null );
-		lblNewLabel_3.setText( null );
-		lblNewLabel_4.setText( null );
+		lblNewLabel.setText(null);
+		lblElem.setText(null);
+		lblNewLabel_2.setText(null);
+		lblNewLabel_3.setText(null);
+		lblNewLabel_4.setText(null);
 	}
 
 	private void dibujarPoligono() {
@@ -228,13 +227,14 @@ public class Mapa {
 		btnDibujarPolgono.setBounds(10, 11, 195, 23);
 		btnDibujarPolgono.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				agm = new ArbolGeneradoMinimo( obtenerCoordenadas() );
+				agm = new ArbolGeneradoMinimo(obtenerCoordenadas());
 				mostrarDistancias();
-				
+
 				if ((coordenadas.size() == 0) || (coordenadas.size() == 1)) {
 					throw new RuntimeException("No se puede dibujar el poligono. No tienes suficientes coordenadas");
-				} else if(coordenadas.size() == 2) {
-					poligono = new MapPolygonImpl( new ArrayList<Coordinate>(Arrays.asList(coordenadas.get(0), coordenadas.get(1), coordenadas.get(1)) ));
+				} else if (coordenadas.size() == 2) {
+					poligono = new MapPolygonImpl(new ArrayList<Coordinate>(
+							Arrays.asList(coordenadas.get(0), coordenadas.get(1), coordenadas.get(1))));
 				} else {
 					poligono = new MapPolygonImpl(coordenadas);
 				}
@@ -242,30 +242,29 @@ public class Mapa {
 			}
 		});
 	}
-	
+
 	public void mostrarDistancias() {
 		List<String> distanciasMin = agm.obtenerCaminoCompleto(nombres);
 		int tamanioDistancias = distanciasMin.size();
-		
+
 		lblDistancia_1.setText(":: distancias y costos ::");
 		for (int i = 0; i < tamanioDistancias; i++) {
 			switch (i) {
-			  case 0:
-					lblDistancia.setText( distanciasMin.get(i) );
-			    break;
-			  case 1:
-					lblDistancia_2.setText( distanciasMin.get(i) );
-			    break;
-			  case 2:
-					lblDistancia_3.setText( distanciasMin.get(i) );
-			    break;
-			  case 3:
-					lblDistancia_4.setText( distanciasMin.get(i) );
-			    break;
+			case 0:
+				lblDistancia.setText(distanciasMin.get(i));
+				break;
+			case 1:
+				lblDistancia_2.setText(distanciasMin.get(i));
+				break;
+			case 2:
+				lblDistancia_3.setText(distanciasMin.get(i));
+				break;
+			case 3:
+				lblDistancia_4.setText(distanciasMin.get(i));
+				break;
 			}
 		}
 	}
-	
 
 	private void eliminarPoligono() {
 		btnEliminar = new JButton("Eliminar Polgono");
@@ -278,15 +277,15 @@ public class Mapa {
 		btnEliminar.setBounds(10, 64, 195, 23);
 		panelControles.add(btnEliminar);
 		panelControles.add(btnDibujarPolgono);
-		
+
 	}
-	
+
 	public void limpiarDistancias() {
-		lblDistancia.setText( null );
-		lblDistancia_2.setText( null );
-		lblDistancia_3.setText( null );
-		lblDistancia_4.setText( null );
-		lblDistancia_1.setText( null );
+		lblDistancia.setText(null);
+		lblDistancia_2.setText(null);
+		lblDistancia_3.setText(null);
+		lblDistancia_4.setText(null);
+		lblDistancia_1.setText(null);
 	}
 
 	private double[][] obtenerCoordenadas() {
