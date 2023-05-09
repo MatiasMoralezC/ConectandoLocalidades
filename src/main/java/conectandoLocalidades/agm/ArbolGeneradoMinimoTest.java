@@ -29,6 +29,11 @@ public class ArbolGeneradoMinimoTest {
 		int[] rtaCorrecta = { -1, 0, 3, 0, 3, 2 };
 		assertArrayEquals(rtaCorrecta, agm.getPosicionesElegidos());
 	}
+	
+	@Test
+	public void calculoPrimIncorrecto() {
+		assertFalse( 6 != (agm.getPosicionesElegidos()).length );
+	}
 
 	// --> asignarCaminoMin
 	@Test
