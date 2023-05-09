@@ -10,7 +10,6 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 import conectandoLocalidades.agm.ArbolGeneradoMinimo;
 
@@ -27,7 +26,6 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.Color;
 
 public class Mapa {
 
