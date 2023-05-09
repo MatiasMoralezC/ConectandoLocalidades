@@ -42,7 +42,6 @@ public class Mapa {
 	
 	private List<String> nombres;
 	private List<Double> distancias;
-	private boolean yaDibujado;
 	
 	private JLabel lblNewLabel;
 	private JLabel lblElem;
@@ -57,6 +56,7 @@ public class Mapa {
 	
 	private ArbolGeneradoMinimo agm;
 	private int maximoNombres = 5;
+	private JLabel lblDistancia_1;
 
 	/**
 	 * Launch the application.
@@ -135,30 +135,38 @@ public class Mapa {
 		lblDistancia = new JLabel("dist1");
 		lblDistancia.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDistancia.setBounds(85, 299, 120, 23);
+		lblDistancia.setBounds(0, 299, 242, 23);
 		panelControles.add(lblDistancia);
 		
 		lblDistancia_2 = new JLabel("dist2");
 		lblDistancia_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDistancia_2.setBounds(85, 333, 120, 23);
+		lblDistancia_2.setBounds(0, 333, 242, 23);
 		panelControles.add(lblDistancia_2);
 		
 		lblDistancia_3 = new JLabel("dist3");
 		lblDistancia_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDistancia_3.setBounds(85, 367, 120, 23);
+		lblDistancia_3.setBounds(0, 367, 242, 23);
 		panelControles.add(lblDistancia_3);
 		
 		lblDistancia_4 = new JLabel("dist4");
 		lblDistancia_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDistancia_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblDistancia_4.setBounds(85, 401, 120, 23);
+		lblDistancia_4.setBounds(0, 401, 242, 23);
 		panelControles.add(lblDistancia_4);
+		
+
+		lblDistancia_1 = new JLabel(":: distancias y costos ::");
+		lblDistancia_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDistancia_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblDistancia_1.setBounds(0, 278, 242, 23);
+		panelControles.add(lblDistancia_1);
 
 		panelMapa.add(miMapa);
 		
 		limpiarDistancias();
+		limpiarNombre();
 		
 		detectarCoordenadas();
 		dibujarPoligono();
@@ -178,12 +186,10 @@ public class Mapa {
 					System.out.println(markeradd);
 					String nombre = JOptionPane.showInputDialog("Nombre: ");
 					miMapa.addMapMarker(new MapMarkerDot(nombre, markeradd));
-					
-					System.out.println("nuevo nombre en la granja: "+ nombre);
+
 					nombres.add(nombre);
-					yaDibujado = true;
-					System.out.println("ya dibujado:: " + yaDibujado);
 					mostrarNombre();
+					limpiarDistancias();
 				}
 			}
 		});
@@ -208,6 +214,14 @@ public class Mapa {
 		    break;
 		}
 	}
+	
+	public void limpiarNombre() {
+		lblNewLabel.setText( null );
+		lblElem.setText( null );
+		lblNewLabel_2.setText( null );
+		lblNewLabel_3.setText( null );
+		lblNewLabel_4.setText( null );
+	}
 
 	private void dibujarPoligono() {
 		btnDibujarPolgono = new JButton("Dibujar Pol\u00EDgono");
@@ -225,7 +239,6 @@ public class Mapa {
 					poligono = new MapPolygonImpl(coordenadas);
 				}
 				miMapa.addMapPolygon(poligono);
-				yaDibujado = false;
 			}
 		});
 	}
@@ -233,19 +246,21 @@ public class Mapa {
 	public void mostrarDistancias() {
 		List<String> distanciasMin = agm.obtenerCaminoCompleto(nombres);
 		int tamanioDistancias = distanciasMin.size();
+		
+		lblDistancia_1.setText(":: distancias y costos ::");
 		for (int i = 0; i < tamanioDistancias; i++) {
 			switch (i) {
 			  case 0:
-					lblDistancia.setText( distanciasMin.get(i) +"km");
+					lblDistancia.setText( distanciasMin.get(i) );
 			    break;
 			  case 1:
-					lblDistancia_2.setText( distanciasMin.get(i) +"km");
+					lblDistancia_2.setText( distanciasMin.get(i) );
 			    break;
 			  case 2:
-					lblDistancia_3.setText( distanciasMin.get(i) +"km");
+					lblDistancia_3.setText( distanciasMin.get(i) );
 			    break;
 			  case 3:
-					lblDistancia_4.setText( distanciasMin.get(i) +"km");
+					lblDistancia_4.setText( distanciasMin.get(i) );
 			    break;
 			}
 		}
@@ -257,7 +272,6 @@ public class Mapa {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				miMapa.removeMapPolygon(poligono);
-				yaDibujado = true;
 				limpiarDistancias();
 			}
 		});
@@ -272,6 +286,7 @@ public class Mapa {
 		lblDistancia_2.setText( null );
 		lblDistancia_3.setText( null );
 		lblDistancia_4.setText( null );
+		lblDistancia_1.setText( null );
 	}
 
 	private double[][] obtenerCoordenadas() {
@@ -281,7 +296,6 @@ public class Mapa {
 
 		for (int i = 0; i < cantCoordenadas; i++) {
 			for (int j = 0; j < cantCoordenadas; j++) {
-				System.out.println("i: "+i+" --  j: "+j);
 				if (i == j) {
 					grafo[i][j] = 0; // La distancia de un nodo a si mismo es 0
 				} else {
@@ -292,10 +306,7 @@ public class Mapa {
 					double lng2 = coordenadas.get(j).getLon();
 					double distancia = distanciaCoord(lat1, lng1, lat2, lng2); // Harvesine
 					grafo[i][j] = distancia; // Parseo a entero y lo agrego al grafo
-					// -------------------------------------------------------------------------- esto se hace x2 ojo
-					System.out.println(":::::::::: "+nombres.get(i)+" :: "+nombres.get(j)+" ::::::::::");
-					System.out.println("distancia::::: ");
-					System.out.println(distancia); // BORRAR
+
 					distancias.add(distancia);
 				}
 			}

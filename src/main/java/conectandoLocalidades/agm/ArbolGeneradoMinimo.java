@@ -3,10 +3,15 @@ package conectandoLocalidades.agm;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import conectandoLocalidades.costos.CostosConexion;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ArbolGeneradoMinimo {
+	private CostosConexion costosConexion = new CostosConexion();
+	
 	private static double[][] grafo;
 	private static int[] posicionesElegidos;
 	private static List<Double> caminoMin;
@@ -74,16 +79,23 @@ public class ArbolGeneradoMinimo {
     
     public List<String> obtenerCaminoCompleto(List<String> nombres) {
     	List<String> camino = new ArrayList<>();
-    	BigDecimal bd;
+    	double distancia;
         for (int i = 1; i < grafo.length; i++) {
-        	// me quedo con 2 decimales
-        	bd = new BigDecimal(grafo[i][posicionesElegidos[i]]);
-        	bd = bd.setScale(2, RoundingMode.HALF_UP);
-        	
-            camino.add(nombres.get(posicionesElegidos[i]) + " -> " + nombres.get(i) + " = " + bd);
+        	distancia = grafo[i][posicionesElegidos[i]];
+            camino.add(nombres.get(posicionesElegidos[i]) + " -> " + nombres.get(i) + " = " + dosDecimales( distancia ) + "km. costo $" + dosDecimales( costosConexion.calcularCosto(distancia) ));
         }
 
     	return camino;
+    }
+    
+    public BigDecimal dosDecimales(double num) {
+    	// me quedo con 2 decimales
+    	BigDecimal bd;
+    	
+    	bd = new BigDecimal(num);
+//    	bd = new BigDecimal(grafo[i][posicionesElegidos[i]]);
+    	bd = bd.setScale(2, RoundingMode.HALF_UP);
+    	return bd;
     }
     
     //Muestra la distancia en km entre cada coordenada. Estaria bueno mostrarlo en la ventana.
