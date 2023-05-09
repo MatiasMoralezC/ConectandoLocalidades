@@ -19,8 +19,11 @@ public class CostosConexion {
 	}
 
 	public double calcularCosto(double distancia) {
-		if (distancia <= 0) {
+		if (distancia < 0) {
 			throw new RuntimeException("la distancia ingresada no es valida");
+		}
+		if(distancia == 0) {
+			return distancia;
 		}
 
 		double costo = distancia * costoPorKm;
